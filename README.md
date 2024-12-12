@@ -40,7 +40,7 @@ console.log(naEndpoints.contentDelivery); // https://cdn.contentstack.io
 
 ## API
 
-### `getContentstackEndpoints(cloud?: Cloud, region?: Region): ContentstackEndpoints`
+### `getContentstackEndpoints(region?: Region, omitHttps: boolean): ContentstackEndpoints`
 
 Returns an object containing all Contentstack API endpoints for the specified cloud and region.
 
