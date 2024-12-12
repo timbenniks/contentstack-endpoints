@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 
-const directory = "./dist/cjs";
+const directory = "./dist/types";
 
-function renameJsToCjs(dir) {
+function renameTsToCts(dir) {
   fs.readdir(dir, (err, files) => {
     if (err) throw err;
 
@@ -14,9 +14,9 @@ function renameJsToCjs(dir) {
         if (err) throw err;
 
         if (stats.isDirectory()) {
-          renameJsToCjs(filePath); // Recurse into subdirectories
-        } else if (path.extname(file) === ".js") {
-          const newPath = path.join(dir, `${path.basename(file, ".js")}.cjs`);
+          renameTsToCts(filePath); // Recurse into subdirectories
+        } else if (path.extname(file) === ".ts" && !file.endsWith(".d.ts")) {
+          const newPath = path.join(dir, `${path.basename(file, ".ts")}.cts`);
           fs.rename(filePath, newPath, (err) => {
             if (err) throw err;
             console.log(`Renamed: ${file} -> ${path.basename(newPath)}`);
@@ -27,4 +27,4 @@ function renameJsToCjs(dir) {
   });
 }
 
-renameJsToCjs(directory);
+renameTsToCts(directory);

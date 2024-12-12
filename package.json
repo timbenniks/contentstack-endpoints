@@ -1,6 +1,6 @@
 {
   "name": "@timbenniks/contentstack-endpoints",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A utility package to get Contentstack API endpoints based on cloud and region",
   "type": "module",
   "main": "./dist/cjs/index.cjs",
@@ -8,9 +8,14 @@
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      }
     }
   },
   "files": [
@@ -19,7 +24,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
-    "postbuild": "node rename-to-cjs.cjs",
+    "postbuild": "node rename-to-cjs.cjs && node rename-to-cts.cjs",
     "build:esm": "tsc -p tsconfig.json --outDir ./dist/esm --module ES2020",
     "build:cjs": "tsc -p tsconfig.json --outDir ./dist/cjs --module CommonJS",
     "build:types": "tsc -p tsconfig.json --outDir ./dist/types --declaration --emitDeclarationOnly",
