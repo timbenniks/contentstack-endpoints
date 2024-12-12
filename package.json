@@ -1,16 +1,16 @@
 {
   "name": "@timbenniks/contentstack-endpoints",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A utility package to get Contentstack API endpoints based on cloud and region",
   "type": "module",
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/cjs/index.cjs"
     }
   },
   "files": [
@@ -19,6 +19,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
+    "postbuild": "node rename-to-cjs.cjs",
     "build:esm": "tsc -p tsconfig.json --outDir ./dist/esm --module ES2020",
     "build:cjs": "tsc -p tsconfig.json --outDir ./dist/cjs --module CommonJS",
     "build:types": "tsc -p tsconfig.json --outDir ./dist/types --declaration --emitDeclarationOnly",
@@ -37,7 +38,7 @@
   "author": "Tim Benniks",
   "repository": {
     "type": "git",
-    "url": "https://github.com/timbenniks/contentstack-endpoints"
+    "url": "git+https://github.com/timbenniks/contentstack-endpoints.git"
   },
   "bugs": {
     "url": "https://github.com/timbenniks/contentstack-endpoints/issues"
