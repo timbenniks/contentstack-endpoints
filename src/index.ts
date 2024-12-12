@@ -17,21 +17,7 @@ const defaultEndpoints: ContentstackEndpoints = {
 };
 
 const regionEndpoints: Record<Region, ContentstackEndpoints> = {
-  [Region.US]: {
-    application: 'https://app.contentstack.io',
-    contentDelivery: 'https://cdn.contentstack.io',
-    contentManagement: 'https://api.contentstack.io',
-    imageDelivery: 'https://images.contentstack.io',
-    assets: 'https://assets.contentstack.io',
-    preview: 'https://rest-preview.contentstack.com',
-    graphql: 'https://graphql.contentstack.com',
-    graphqlPreview: 'https://graphql-preview.contentstack.com',
-    brandKit: 'https://brand-kits-api.contentstack.com',
-    brandKitGenAI: 'https://ai.contentstack.com/brand-kits',
-    personalizeManagement: 'https://personalize-api.contentstack.com',
-    personalizeEdge: 'https://personalize-edge.contentstack.com',
-    automate: 'https://automations-api.contentstack.com'
-  },
+  [Region.US]: defaultEndpoints,
   [Region.EU]: {
     application: 'https://eu-app.contentstack.com',
     contentDelivery: 'https://eu-cdn.contentstack.com',
@@ -89,24 +75,20 @@ const regionEndpoints: Record<Region, ContentstackEndpoints> = {
     brandKit: 'https://gcp-na-brand-kits-api.contentstack.com',
     brandKitGenAI: 'https://gcp-na-ai.contentstack.com/brand-kits',
     personalizeManagement: 'https://gcp-na-personalize-api.contentstack.com',
-    personalizeEdge: 'https://gcp-na-personalize-edge.contentstack.com'
+    personalizeEdge: 'https://gcp-na-personalize-edge.contentstack.com',
   }
 };
 
 function removeHttps(url: string): string {
-  return url.replace(/^http[s]?:\/\//, '');
+  return url.replace(/^https:\/\//, '');
 }
 
-const DEFAULT_REGION = Region.US;
-
-export function getContentstackEndpoints(region = DEFAULT_REGION, omitHttps = false): ContentstackEndpoints {
-  const endpoints = regionEndpoints[region] || defaultEndpoints;
-
+export function getContentstackEndpoints(region: Region = Region.US, omitHttps: boolean = false): ContentstackEndpoints {
+  const endpoints: ContentstackEndpoints = regionEndpoints[region] || defaultEndpoints;
   if (omitHttps) {
     return Object.fromEntries(
-      Object.entries(endpoints).map(([key, value]) => [key, typeof value === "string" ? removeHttps(value) : value])
+      Object.entries(endpoints).map(([key, value]: [string, string]) => [key, removeHttps(value)])
     ) as ContentstackEndpoints;
   }
-
   return endpoints;
 }

@@ -1,9 +1,9 @@
 export enum Region {
-  US,
-  EU,
-  AZURE_NA,
-  AZURE_EU,
-  GCP_NA
+  US = "us",
+  EU = "eu",
+  AZURE_NA = "azure-na",
+  AZURE_EU = "azure-eu",
+  GCP_NA = "gcp-na"
 }
 
 export interface ContentstackEndpoints {
