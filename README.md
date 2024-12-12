@@ -19,11 +19,11 @@ import { getContentstackEndpoints } from "@timbenniks/contentstack-endpoints";
 
 // Get default North America endpoints
 const naEndpoints = getContentstackEndpoints();
-console.log(naEndpoints.contentDelivery); // https://cdn.contentstack.com/
+console.log(naEndpoints.contentDelivery); // https://cdn.contentstack.io
 
 // Get Azure Europe endpoints
-const azureEuEndpoints = getContentstackEndpoints("azure", "eu");
-console.log(azureEuEndpoints.contentDelivery); // https://azure-eu-cdn.contentstack.com/
+const azureEuEndpoints = getContentstackEndpoints(Region.AZURE_EU);
+console.log(azureEuEndpoints.contentDelivery); // https://azure-eu-cdn.contentstack.com
 ```
 
 ### CommonJS
@@ -35,7 +35,7 @@ const {
 
 // Get default North America endpoints
 const naEndpoints = getContentstackEndpoints();
-console.log(naEndpoints.contentDelivery); // https://cdn.contentstack.com/
+console.log(naEndpoints.contentDelivery); // https://cdn.contentstack.io
 ```
 
 ## API
@@ -46,8 +46,8 @@ Returns an object containing all Contentstack API endpoints for the specified cl
 
 #### Parameters
 
-- `cloud` (optional): 'default' | 'azure' | 'gcp' (defaults to 'default')
-- `region` (optional): 'na' | 'eu' (defaults to 'na')
+- `region` as `Region.US`, `Region.EU`, `Region.AZURE_NA`, `Region.AZURE_EU`, or `Region.GCP_NA`
+- `omitHttps` as boolean
 
 #### Returns
 
@@ -64,6 +64,8 @@ An object containing the following endpoints:
 - `brandKitGenAI`: Brand Kit GenAI and Knowledge Vault endpoint
 - `personalizeManagement`: Personalize Management API endpoint
 - `personalizeEdge`: Personalize Edge API endpoint
+- `application`: Contentstack web application
+- `preview`: REST Preview API endpoint
 
 ## License
 
