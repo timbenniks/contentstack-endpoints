@@ -1,6 +1,6 @@
 {
   "name": "@timbenniks/contentstack-endpoints",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A utility package to get Contentstack API endpoints based on cloud and region",
   "type": "module",
   "main": "./dist/cjs/index.cjs",

@@ -2,29 +2,27 @@ const fs = require("fs");
 const path = require("path");
 
 const directory = "./dist/types";
+const targetFile = "index.d.ts";
+const newFile = "index.d.cts";
 
-function renameTsToCts(dir) {
-  fs.readdir(dir, (err, files) => {
-    if (err) throw err;
+function copyIndexDts(dir) {
+  const sourcePath = path.join(dir, targetFile);
+  const destPath = path.join(dir, newFile);
 
-    files.forEach((file) => {
-      const filePath = path.join(dir, file);
+  fs.access(sourcePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error(`${targetFile} not found in ${dir}`);
+      return;
+    }
 
-      fs.stat(filePath, (err, stats) => {
-        if (err) throw err;
-
-        if (stats.isDirectory()) {
-          renameTsToCts(filePath); // Recurse into subdirectories
-        } else if (path.extname(file) === ".ts" && !file.endsWith(".d.ts")) {
-          const newPath = path.join(dir, `${path.basename(file, ".ts")}.cts`);
-          fs.rename(filePath, newPath, (err) => {
-            if (err) throw err;
-            console.log(`Renamed: ${file} -> ${path.basename(newPath)}`);
-          });
-        }
-      });
+    fs.copyFile(sourcePath, destPath, (err) => {
+      if (err) {
+        console.error(`Error copying file: ${err}`);
+        return;
+      }
+      console.log(`Created: ${newFile}`);
     });
   });
 }
 
-renameTsToCts(directory);
+copyIndexDts(directory);
