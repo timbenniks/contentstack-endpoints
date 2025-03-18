@@ -15,30 +15,29 @@ npm install @timbenniks/contentstack-endpoints
 ### ESM (recommended)
 
 ```typescript
-import { getContentstackEndpoints } from "@timbenniks/contentstack-endpoints";
-
-// Get default North America endpoints
-const endpoints = getContentstackEndpoints();
-console.log(endpoints.contentDelivery); // https://cdn.contentstack.io
-
-// Get Azure Europe endpoints
-const azureEuEndpoints = getContentstackEndpoints(Region.AZURE_EU); // see below how to import the Region enum
-console.log(azureEuEndpoints.contentDelivery); // https://azure-eu-cdn.contentstack.com
-```
-
-### CommonJS
-
-```javascript
-const {
+import {
+  getRegionForString,
   getContentstackEndpoints,
-} = require("@timbenniks/contentstack-endpoints");
+} from "@timbenniks/contentstack-endpoints";
 
-// Get default North America endpoints
+// Get region based on string ("eu", "gcp_na", "azure_eu", etc)
+// Returns a Region ENUM.
+const region = getRegionForString("azure_eu"); // Region.AZURE_EU
+
+// Get endpoints base don region
+const endpoints = getContentstackEndpoints(region);
+console.log(endpoints.contentDelivery); // https://azure-eu-cdn.contentstack.com
+
+// Without providing a region: get default North America endpoints
 const endpoints = getContentstackEndpoints();
 console.log(endpoints.contentDelivery); // https://cdn.contentstack.io
 ```
 
 ## API
+
+### `getRegionForString(regionAsString: String)`
+
+returns the region enum based on a string
 
 ### `getContentstackEndpoints(region?: Region, omitHttps: boolean): ContentstackEndpoints`
 
