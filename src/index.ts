@@ -76,6 +76,20 @@ const regionEndpoints: Record<Region, ContentstackEndpoints> = {
     brandKitGenAI: 'https://gcp-na-ai.contentstack.com/brand-kits',
     personalizeManagement: 'https://gcp-na-personalize-api.contentstack.com',
     personalizeEdge: 'https://gcp-na-personalize-edge.contentstack.com',
+  },
+  [Region.GCP_EU]: {
+    application: 'https://gcp-eu-app.contentstack.com',
+    contentDelivery: 'https://gcp-eu-cdn.contentstack.com',
+    contentManagement: 'https://gcp-eu-api.contentstack.com',
+    imageDelivery: 'https://gcp-eu-images.contentstack.com',
+    assets: 'https://gcp-eu-assets.contentstack.com',
+    preview: 'https://gcp-eu-rest-preview.contentstack.com',
+    graphql: 'https://gcp-eu-graphql.contentstack.com',
+    graphqlPreview: 'https://gcp-eu-graphql-preview.contentstack.com',
+    brandKit: 'https://gcp-eu-brand-kits-api.contentstack.com',
+    brandKitGenAI: 'https://gcp-eu-ai.contentstack.com/brand-kits',
+    personalizeManagement: 'https://gcp-eu-personalize-api.contentstack.com',
+    personalizeEdge: 'https://gcp-eu-personalize-edge.contentstack.com',
   }
 };
 
@@ -92,3 +106,5 @@ export function getContentstackEndpoints(region: Region = Region.US, omitHttps: 
   }
   return endpoints;
 }
+
+export type { ContentstackEndpoints, Region };

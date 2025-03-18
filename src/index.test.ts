@@ -31,6 +31,12 @@ describe('getContentstackEndpoints', () => {
     expect(endpoints.contentManagement).toBe('https://azure-na-api.contentstack.com');
   });
 
+  it('should return GCP EU endpoints', () => {
+    const endpoints = getContentstackEndpoints(Region.GCP_EU);
+    expect(endpoints.contentDelivery).toBe('https://gcp-eu-cdn.contentstack.com');
+    expect(endpoints.contentManagement).toBe('https://gcp-eu-api.contentstack.com');
+  });
+
   it('should return GCP NA endpoints without automate endpoint', () => {
     const endpoints = getContentstackEndpoints(Region.GCP_NA);
     expect(endpoints.contentDelivery).toBe('https://gcp-na-cdn.contentstack.com');
