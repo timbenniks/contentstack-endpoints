@@ -107,4 +107,8 @@ export function getContentstackEndpoints(region: Region = Region.US, omitHttps: 
   return endpoints;
 }
 
+export function getRegionForString(regionAsString: String) {
+  return Region[regionAsString.toLocaleUpperCase() as keyof typeof Region];
+}
+
 export type { ContentstackEndpoints, Region };

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getContentstackEndpoints } from './index.js';
+import { getContentstackEndpoints, getRegionForString } from './index.js';
 import { Region } from './types';
 
 describe('getContentstackEndpoints', () => {
@@ -48,4 +48,13 @@ describe('getContentstackEndpoints', () => {
     expect(endpoints.graphqlPreview).toBe('https://azure-eu-graphql-preview.contentstack.com');
   });
 
+  it('Should return Region.EU for "EU"', () => {
+    const region = getRegionForString("EU")
+    expect(region).toBe(Region.EU);
+  });
+
+  it('Should return Region.AZURE_NA for "AZURE_NA"', () => {
+    const region = getRegionForString("AZURE_NA")
+    expect(region).toBe(Region.AZURE_NA);
+  });
 });
