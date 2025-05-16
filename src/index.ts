@@ -1,7 +1,7 @@
 import { ContentstackEndpoints, Region } from './types';
 
 const defaultEndpoints: ContentstackEndpoints = {
-  application: 'https://app.contentstack.io',
+  application: 'https://app.contentstack.com',
   contentDelivery: 'https://cdn.contentstack.io',
   contentManagement: 'https://api.contentstack.io',
   imageDelivery: 'https://images.contentstack.io',
