@@ -107,7 +107,8 @@ export function getContentstackEndpoints(region: Region = Region.US, omitHttps: 
   return endpoints;
 }
 
-export function getRegionForString(regionAsString: String) {
+export function getRegionForString(regionAsString: string) {
+  regionAsString = regionAsString.replace(/-/g, '_');
   return Region[regionAsString.toLocaleUpperCase() as keyof typeof Region];
 }
 

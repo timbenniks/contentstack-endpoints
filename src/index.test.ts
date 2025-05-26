@@ -57,4 +57,14 @@ describe('getContentstackEndpoints', () => {
     const region = getRegionForString("AZURE_NA")
     expect(region).toBe(Region.AZURE_NA);
   });
+
+  it('Should return Region.AZURE_NA for "azure-na"', () => {
+    const region = getRegionForString("azure-na")
+    expect(region).toBe(Region.AZURE_NA);
+  });
+
+  it('Should return Region.GCP_NA for "gcp-na"', () => {
+    const region = getRegionForString("gcp-na")
+    expect(region).toBe(Region.GCP_NA);
+  });
 });
