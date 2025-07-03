@@ -45,7 +45,7 @@ Returns an object containing all Contentstack API endpoints for the specified cl
 
 #### Parameters
 
-- `region` as `Region.US`, `Region.EU`, `Region.AZURE_NA`, `Region.AZURE_EU`, `Region.GCP_NA`, or `Region.GCP_EO`
+- `region` as `Region.US`, `Region.EU`, `Region.AU`, `Region.AZURE_NA`, `Region.AZURE_EU`, `Region.GCP_NA`, or `Region.GCP_EO`
 - `omitHttps` as boolean
 
 #### Returns
@@ -72,6 +72,7 @@ An object containing the following endpoints:
 export enum Region {
   US = "us",
   EU = "eu",
+  AU = "au",
   AZURE_NA = "azure-na",
   AZURE_EU = "azure-eu",
   GCP_NA = "gcp-na",
