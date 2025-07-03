@@ -33,6 +33,21 @@ const regionEndpoints: Record<Region, ContentstackEndpoints> = {
     personalizeEdge: 'https://eu-personalize-edge.contentstack.com',
     automate: 'https://eu-prod-automations-api.contentstack.com'
   },
+  [Region.AU]: {
+    application: 'https://au-app.contentstack.com',
+    contentDelivery: 'https://au-cdn.contentstack.com',
+    contentManagement: 'https://au-api.contentstack.com',
+    imageDelivery: 'https://au-images.contentstack.com',
+    assets: 'https://au-assets.contentstack.com',
+    preview: 'https://au-rest-preview.contentstack.com',
+    graphql: 'https://au-graphql.contentstack.com',
+    graphqlPreview: 'https://au-graphql-preview.contentstack.com',
+    brandKit: 'https://au-brand-kits-api.contentstack.com',
+    brandKitGenAI: 'https://au-ai.contentstack.com/brand-kits',
+    personalizeManagement: 'https://au-personalize-api.contentstack.com',
+    personalizeEdge: 'https://au-personalize-edge.contentstack.com',
+    automate: 'https://au-prod-automations-api.contentstack.com'
+  },
   [Region.AZURE_NA]: {
     application: 'https://azure-na-app.contentstack.com',
     contentDelivery: 'https://azure-na-cdn.contentstack.com',
