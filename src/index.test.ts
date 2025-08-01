@@ -136,6 +136,29 @@ describe('getContentstackEndpoints', () => {
   });
 });
 
+describe('getContentstackEndpoints - unrecognized regions', () => {
+  it('should return empty object for unrecognized region', () => {
+    // Cast to simulate an invalid region for testing purposes
+    const invalidRegion = 'INVALID_REGION' as Region;
+    const endpoints = getContentstackEndpoints(invalidRegion);
+    expect(endpoints).toEqual({});
+  });
+
+  it('should return empty object for unrecognized region with omitHttps true', () => {
+    // Cast to simulate an invalid region for testing purposes  
+    const invalidRegion = 'ANOTHER_INVALID' as Region;
+    const endpoints = getContentstackEndpoints(invalidRegion, true);
+    expect(endpoints).toEqual({});
+  });
+
+  it('should handle null region gracefully', () => {
+    // Cast to simulate a null region for testing purposes
+    const nullRegion = null as unknown as Region;
+    const endpoints = getContentstackEndpoints(nullRegion);
+    expect(endpoints).toEqual({});
+  });
+});
+
 describe('getRegionForString', () => {
   it('Should return Region.EU for "EU"', () => {
     const region = getRegionForString("EU")
@@ -212,5 +235,21 @@ describe('getRegionForString', () => {
   it('Should return undefined for empty string', () => {
     const region = getRegionForString("");
     expect(region).toBeUndefined();
+  });
+
+  it('Should return undefined for null input', () => {
+    const region = getRegionForString(null as any);
+    expect(region).toBeUndefined();
+  });
+
+  it('Should return undefined for undefined input', () => {
+    const region = getRegionForString(undefined as any);
+    expect(region).toBeUndefined();
+  });
+
+  it('Should return undefined for random invalid strings', () => {
+    expect(getRegionForString("xyz")).toBeUndefined();
+    expect(getRegionForString("test-region")).toBeUndefined();
+    expect(getRegionForString("123")).toBeUndefined();
   });
 });

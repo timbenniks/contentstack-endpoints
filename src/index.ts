@@ -113,7 +113,13 @@ function removeHttps(url: string): string {
 }
 
 export function getContentstackEndpoints(region: Region = Region.US, omitHttps: boolean = false): ContentstackEndpoints {
-  const endpoints: ContentstackEndpoints = regionEndpoints[region] || defaultEndpoints;
+  // If region is null, undefined, or not found in regionEndpoints, return empty object
+  const endpoints: ContentstackEndpoints = region && regionEndpoints[region];
+
+  if (!endpoints) {
+    return {};
+  }
+
   if (omitHttps) {
     return Object.fromEntries(
       Object.entries(endpoints).map(([key, value]: [string, string]) => [key, removeHttps(value)])
@@ -123,8 +129,13 @@ export function getContentstackEndpoints(region: Region = Region.US, omitHttps: 
 }
 
 export function getRegionForString(regionAsString: string) {
+  if (!regionAsString || typeof regionAsString !== 'string') {
+    return undefined;
+  }
+
   regionAsString = regionAsString.replace(/-/g, '_');
   return Region[regionAsString.toLocaleUpperCase() as keyof typeof Region];
 }
 
-export type { ContentstackEndpoints, Region };
+export { Region } from './types';
+export type { ContentstackEndpoints };
