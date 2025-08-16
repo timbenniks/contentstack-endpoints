@@ -1,6 +1,6 @@
 {
   "name": "@timbenniks/contentstack-endpoints",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "A utility package to get Contentstack API endpoints based on cloud and region",
   "type": "module",
   "main": "./dist/cjs/index.cjs",
@@ -13,7 +13,7 @@
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "types": "./dist/types/index.d.cts",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.cjs"
       }
     }
@@ -21,13 +21,16 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
-    "postbuild": "node fix-esm-imports.cjs && node rename-to-cjs.cjs && node fix-cjs-imports.cjs && node rename-to-cts.cjs",
-    "build:esm": "tsc -p tsconfig.esm.json",
-    "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:types": "tsc -p tsconfig.json --outDir ./dist/types --declaration --emitDeclarationOnly",
+    "build": "npm run clean && npm run build:js && npm run build:types",
+    "build:js": "rolldown -c rolldown.config.js",
+    "build:types": "tsdown --dts --out-dir dist/types src/index.ts",
+    "build:vite": "npm run clean && vite build",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxc-fmt",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build"
@@ -52,8 +55,13 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^24.0.10",
+    "oxlint": "^1.11.2",
     "rimraf": "^6.0.1",
+    "rolldown": "^1.0.0-beta.32",
+    "tsdown": "^0.14.1",
     "typescript": "^5.8.3",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.3.0",
     "vitest": "^3.2.4"
   }
 }
