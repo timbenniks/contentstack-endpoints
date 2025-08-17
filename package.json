@@ -1,20 +1,20 @@
 {
   "name": "@timbenniks/contentstack-endpoints",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A utility package to get Contentstack API endpoints based on cloud and region",
   "type": "module",
-  "main": "./dist/cjs/index.cjs",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/esm/index.js"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/cjs/index.cjs"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
       }
     }
   },
@@ -23,11 +23,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:js && npm run build:types",
-    "build:js": "rolldown -c rolldown.config.js",
-    "build:types": "tsdown --dts --out-dir dist/types src/index.ts",
-    "build:vite": "npm run clean && vite build",
+    "build": "tsdown",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxc-fmt",
@@ -56,12 +52,8 @@
   "devDependencies": {
     "@types/node": "^24.0.10",
     "oxlint": "^1.11.2",
-    "rimraf": "^6.0.1",
-    "rolldown": "^1.0.0-beta.32",
     "tsdown": "^0.14.1",
     "typescript": "^5.8.3",
-    "vite": "^6.0.0",
-    "vite-plugin-dts": "^4.3.0",
     "vitest": "^3.2.4"
   }
 }

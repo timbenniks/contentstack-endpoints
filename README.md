@@ -10,6 +10,19 @@ A utility package that provides Contentstack API endpoints based on cloud provid
 npm install @timbenniks/contentstack-endpoints
 ```
 
+## Quick Start
+
+```typescript
+import {
+  getRegionForString,
+  getContentstackEndpoints,
+} from "@timbenniks/contentstack-endpoints";
+
+const region = getRegionForString("eu");
+const endpoints = getContentstackEndpoints(region);
+console.log(endpoints.contentDelivery); // https://eu-cdn.contentstack.com
+```
+
 ## Usage
 
 ### ESM (recommended)
@@ -31,6 +44,19 @@ console.log(endpoints.contentDelivery); // https://azure-eu-cdn.contentstack.com
 // Handling unrecognized regions (for internal testing)
 const invalidRegion = getRegionForString("invalid-region"); // undefined
 const emptyEndpoints = getContentstackEndpoints(invalidRegion); // {}
+```
+
+### CommonJS
+
+```javascript
+const {
+  getRegionForString,
+  getContentstackEndpoints,
+} = require("@timbenniks/contentstack-endpoints");
+
+const region = getRegionForString("eu");
+const endpoints = getContentstackEndpoints(region);
+console.log(endpoints.contentDelivery); // https://eu-cdn.contentstack.com
 ```
 
 ### Error Handling
@@ -97,7 +123,7 @@ An object containing the following endpoints:
 - `contentManagement`: Content Management API endpoint
 - `imageDelivery`: Image Delivery API endpoint
 - `assets`: Assets API endpoint
-- `automate`: Automate API endpoint (not available for GCP_NA and GCP_EU)
+- `automate`: Automate API endpoint (**Note**: Not available for `GCP_NA` and `GCP_EU` regions)
 - `graphql`: GraphQL API endpoint
 - `graphqlPreview`: GraphQL Preview API endpoint
 - `brandKit`: Brand Kit API endpoint
