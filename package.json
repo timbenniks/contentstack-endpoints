@@ -1,6 +1,6 @@
 {
   "name": "@timbenniks/contentstack-endpoints",
-  "version": "1.0.16",
+  "version": "2.1.0",
   "description": "A utility package to get Contentstack API endpoints based on cloud and region",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -19,16 +19,17 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src/regions-metadata.json"
   ],
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "format": "oxc-fmt",
     "test": "vitest run",
     "test:watch": "vitest",
+    "generate-endpoints": "node scripts/generate-endpoints.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

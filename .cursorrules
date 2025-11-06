@@ -1,0 +1,41 @@
+# Cursor Rules for contentstack-endpoints
+
+## Auto-Generated Files
+
+The following files are automatically generated and should NOT be edited manually:
+- `src/types.ts` - TypeScript type definitions generated from official source
+- `src/regions-data.ts` - Endpoint data and alias mappings (auto-generated)
+- `src/regions-metadata.json` - Region metadata for reference
+
+To update these files, run:
+```bash
+npm run generate-endpoints
+```
+
+## Manually Maintained Files
+
+The following files contain business logic and should be reviewed carefully:
+- `src/index.ts` - Helper functions that import data from `regions-data.ts`
+- `src/index.test.ts` - Test suite
+- `scripts/generate-endpoints.js` - Data generation script
+
+## Development Workflow
+
+1. **Updating endpoints**: Run `npm run generate-endpoints` to fetch latest from Contentstack
+2. **Testing**: Always run `npm test` after generating new endpoints
+3. **Building**: Run `npm run build` to compile TypeScript
+4. **Manual edits**: Only edit files in `scripts/` directory or test files
+
+## Testing Guidelines
+
+- Tests should cover all regions
+- Tests should verify all endpoint properties
+- Tests should handle edge cases (invalid regions, null values)
+- Backward compatibility tests are essential
+
+## Version Numbering
+
+- Breaking changes (endpoint renames, removed regions): Major version bump
+- New endpoints added: Minor version bump
+- Bug fixes: Patch version bump
+

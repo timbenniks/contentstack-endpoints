@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2025-11-06T13:28:05.283Z",
+  "source": "https://artifacts.contentstack.com/regions.json",
+  "regions": [
+    {
+      "id": "na",
+      "name": "AWS North America",
+      "cloudProvider": "AWS",
+      "location": "North America",
+      "aliases": [
+        "na",
+        "us",
+        "aws-na",
+        "aws_na"
+      ],
+      "isDefault": true
+    },
+    {
+      "id": "eu",
+      "name": "AWS Europe",
+      "cloudProvider": "AWS",
+      "location": "Europe",
+      "aliases": [
+        "eu",
+        "aws-eu",
+        "aws_eu"
+      ],
+      "isDefault": false
+    },
+    {
+      "id": "au",
+      "name": "AWS Australia",
+      "cloudProvider": "AWS",
+      "location": "Australia",
+      "aliases": [
+        "au",
+        "aws-au",
+        "aws_au"
+      ],
+      "isDefault": false
+    },
+    {
+      "id": "azure-na",
+      "name": "Azure North America",
+      "cloudProvider": "Azure",
+      "location": "North America",
+      "aliases": [
+        "azure-na",
+        "azure_na"
+      ],
+      "isDefault": false
+    },
+    {
+      "id": "azure-eu",
+      "name": "Azure Europe",
+      "cloudProvider": "Azure",
+      "location": "Europe",
+      "aliases": [
+        "azure-eu",
+        "azure_eu"
+      ],
+      "isDefault": false
+    },
+    {
+      "id": "gcp-na",
+      "name": "GCP North America",
+      "cloudProvider": "GCP",
+      "location": "North America",
+      "aliases": [
+        "gcp-na",
+        "gcp_na"
+      ],
+      "isDefault": false
+    },
+    {
+      "id": "gcp-eu",
+      "name": "GCP Europe",
+      "cloudProvider": "GCP",
+      "location": "Europe",
+      "aliases": [
+        "gcp-eu",
+        "gcp_eu"
+      ],
+      "isDefault": false
+    }
+  ]
+}

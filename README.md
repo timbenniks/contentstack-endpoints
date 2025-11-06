@@ -1,8 +1,6 @@
 # @timbenniks/contentstack-endpoints
 
-A utility package that provides Contentstack API endpoints based on cloud provider and region. This package helps you easily get the correct API endpoints for different Contentstack environments and regions.
-
-> Beware: this is open source and maintained by @timbenniks and it's not officially supported Contentstack. Support questions go to @timbenniks directly.
+Get the correct Contentstack API endpoints for any region and cloud provider. No more hardcoding URLs or guessing which endpoint to use!
 
 ## Installation
 
@@ -13,172 +11,191 @@ npm install @timbenniks/contentstack-endpoints
 ## Quick Start
 
 ```typescript
-import {
-  getRegionForString,
-  getContentstackEndpoints,
-} from "@timbenniks/contentstack-endpoints";
+import { getContentstackEndpoints } from "@timbenniks/contentstack-endpoints";
 
-const region = getRegionForString("eu");
-const endpoints = getContentstackEndpoints(region);
+const endpoints = getContentstackEndpoints("eu");
+
 console.log(endpoints.contentDelivery); // https://eu-cdn.contentstack.com
+console.log(endpoints.contentManagement); // https://eu-api.contentstack.com
+console.log(endpoints.graphqlDelivery); // https://eu-graphql.contentstack.com
 ```
 
-## Usage
+## Two Ways to Use This Package
 
-### ESM (recommended)
+### ✨ Approach 1: Simple Strings (Recommended)
+
+**Just pass a region string directly** - clean and simple!
+
+```typescript
+import { getContentstackEndpoints } from "@timbenniks/contentstack-endpoints";
+
+// Direct string usage
+const endpoints = getContentstackEndpoints("eu");
+
+// Perfect for environment variables
+const endpoints = getContentstackEndpoints(
+  process.env.CONTENTSTACK_REGION || "na"
+);
+```
+
+**Benefits:**
+
+- 🎯 Simpler - fewer imports, less code
+- 🚀 Cleaner - no enum conversions needed
+- ✅ Direct - just pass the string you have
+
+### 🔧 Approach 2: With Region Conversion (Legacy)
+
+**Use when you need explicit type safety or enum validation:**
 
 ```typescript
 import {
-  getRegionForString,
   getContentstackEndpoints,
+  getRegionForString,
 } from "@timbenniks/contentstack-endpoints";
 
-// Get region based on string ("eu", "gcp_na", "azure_eu", etc)
-// Returns a Region ENUM.
-const region = getRegionForString("azure_eu"); // Region.AZURE_EU
-
-// Get endpoints based on region
-const endpoints = getContentstackEndpoints(region);
-console.log(endpoints.contentDelivery); // https://azure-eu-cdn.contentstack.com
-
-// Handling unrecognized regions (for internal testing)
-const invalidRegion = getRegionForString("invalid-region"); // undefined
-const emptyEndpoints = getContentstackEndpoints(invalidRegion); // {}
+// Convert string to Region enum first
+const region = getRegionForString(process.env.CONTENTSTACK_REGION as string);
+const endpoints = getContentstackEndpoints(region, true);
 ```
 
-### CommonJS
+**When to use this:**
 
-```javascript
-const {
-  getRegionForString,
-  getContentstackEndpoints,
-} = require("@timbenniks/contentstack-endpoints");
+- 🛡️ You need explicit Region enum types
+- 🔍 You want to validate the region string before use
+- 📦 Existing codebase already uses this pattern
 
-const region = getRegionForString("eu");
-const endpoints = getContentstackEndpoints(region);
-console.log(endpoints.contentDelivery); // https://eu-cdn.contentstack.com
+**Both approaches work perfectly** - choose what fits your style!
+
+## Supported Regions
+
+All official Contentstack regions and aliases (case-insensitive):
+
+| Region                  | Aliases                                |
+| ----------------------- | -------------------------------------- |
+| **AWS North America**   | `"na"`, `"us"`, `"aws-na"`, `"aws_na"` |
+| **AWS Europe**          | `"eu"`, `"aws-eu"`, `"aws_eu"`         |
+| **AWS Australia**       | `"au"`, `"aws-au"`, `"aws_au"`         |
+| **Azure North America** | `"azure-na"`, `"azure_na"`             |
+| **Azure Europe**        | `"azure-eu"`, `"azure_eu"`             |
+| **GCP North America**   | `"gcp-na"`, `"gcp_na"`                 |
+| **GCP Europe**          | `"gcp-eu"`, `"gcp_eu"`                 |
+
+## Usage Examples
+
+### With Contentstack SDK
+
+```typescript
+import Contentstack from "@contentstack/delivery-sdk";
+import { getContentstackEndpoints } from "@timbenniks/contentstack-endpoints";
+
+const endpoints = getContentstackEndpoints("eu");
+
+const stack = Contentstack.stack({
+  apiKey: "your-api-key",
+  deliveryToken: "your-token",
+  environment: "production",
+  region: endpoints.contentDelivery,
+});
+```
+
+### With Environment Variables
+
+```typescript
+const endpoints = getContentstackEndpoints(
+  process.env.CONTENTSTACK_REGION || "na"
+);
+```
+
+### Remove HTTPS Prefix
+
+```typescript
+const endpoints = getContentstackEndpoints("eu", true);
+console.log(endpoints.contentDelivery); // eu-cdn.contentstack.com
 ```
 
 ### Error Handling
 
-This package is designed to handle unrecognized regions gracefully, making it suitable for internal testing scenarios:
-
-- `getRegionForString()` returns `undefined` for invalid, null, or undefined inputs
-- `getContentstackEndpoints()` returns an empty object `{}` for unrecognized regions
-- No errors are thrown, ensuring your application continues to function
+Returns empty object for invalid inputs (no errors thrown):
 
 ```typescript
-// These all return undefined safely
-getRegionForString("invalid-region"); // undefined
-getRegionForString(null); // undefined
-getRegionForString(""); // undefined
-
-// These all return empty object safely
-getContentstackEndpoints("INVALID_REGION" as Region); // {}
-getContentstackEndpoints(null as any); // {}
+getContentstackEndpoints("invalid"); // {}
+getContentstackEndpoints(null); // {}
 ```
+
+## Available Endpoints
+
+Each region returns an object with these endpoint URLs:
+
+| Property                  | Description                                           |
+| ------------------------- | ----------------------------------------------------- |
+| `contentDelivery`         | Content Delivery API (CDN)                            |
+| `contentManagement`       | Content Management API                                |
+| `graphqlDelivery`         | GraphQL API                                           |
+| `graphqlPreview`          | GraphQL Preview API                                   |
+| `images`                  | Image Delivery/Transformation API                     |
+| `assets`                  | Assets API                                            |
+| `preview`                 | REST Preview API                                      |
+| `auth`                    | Authentication API                                    |
+| `automate`                | Automate API                                          |
+| `launch`                  | Launch API                                            |
+| `developerHub`            | Developer Hub API                                     |
+| `genAI`                   | GenAI & Knowledge Vault API                           |
+| `brandKit`                | Brand Kit API                                         |
+| `personalize`             | Personalize Management API                            |
+| `personalizeEdge`         | Personalize Edge API                                  |
+| `application`             | Contentstack Web App URL                              |
+| **Deprecated Properties** | **v1.x compatibility - still work but use new names** |
+| `graphql`                 | ⚠️ Use `graphqlDelivery` instead                      |
+| `imageDelivery`           | ⚠️ Use `images` instead                               |
+| `brandKitGenAI`           | ⚠️ Use `genAI` instead                                |
+| `personalizeManagement`   | ⚠️ Use `personalize` instead                          |
 
 ## API
 
-### `getRegionForString(regionAsString: String)`
+### `getContentstackEndpoints(region?, omitHttps?)`
 
-Returns the region enum based on a string. Returns `undefined` for invalid inputs.
+```typescript
+getContentstackEndpoints(region?: string | Region, omitHttps?: boolean): ContentstackEndpoints
+```
 
 **Parameters:**
 
-- `regionAsString` - A string representing the region (e.g., "eu", "azure-na", "gcp_eu")
+- `region` - Region string (e.g., `"eu"`, `"azure-na"`) or Region enum (default: `"na"`)
+- `omitHttps` - Remove `https://` prefix (default: `false`)
 
-**Returns:**
+**Returns:** Object with endpoint URLs
 
-- `Region` enum value for valid inputs
-- `undefined` for invalid, null, or undefined inputs
-
-**Examples:**
+### `getRegionForString(regionString)` (Optional)
 
 ```typescript
-getRegionForString("eu"); // Region.EU
-getRegionForString("azure-na"); // Region.AZURE_NA
-getRegionForString("invalid"); // undefined
+getRegionForString(regionAsString: string): Region | undefined
 ```
 
-### `getContentstackEndpoints(region?: Region, omitHttps?: boolean): ContentstackEndpoints`
+Converts a region string to a Region enum. Only needed for Approach 2 (legacy).
 
-Returns an object containing all Contentstack API endpoints for the specified cloud and region. Returns an empty object for unrecognized regions.
+---
 
-#### Parameters
+## About
 
-- `region` (optional) - One of: `Region.US`, `Region.EU`, `Region.AU`, `Region.AZURE_NA`, `Region.AZURE_EU`, `Region.GCP_NA`, or `Region.GCP_EU`. Defaults to `Region.US`
-- `omitHttps` (optional) - Boolean flag to remove "https://" prefix from URLs. Defaults to `false`
-
-#### Returns
-
-- For valid regions: An object containing Contentstack API endpoints
-- For invalid regions: An empty object `{}`
-
-#### Endpoint Properties
-
-An object containing the following endpoints:
-
-- `contentDelivery`: Content Delivery API endpoint
-- `contentManagement`: Content Management API endpoint
-- `imageDelivery`: Image Delivery API endpoint
-- `assets`: Assets API endpoint
-- `automate`: Automate API endpoint (**Note**: Not available for `GCP_NA` and `GCP_EU` regions)
-- `graphql`: GraphQL API endpoint
-- `graphqlPreview`: GraphQL Preview API endpoint
-- `brandKit`: Brand Kit API endpoint
-- `brandKitGenAI`: Brand Kit GenAI and Knowledge Vault endpoint
-- `personalizeManagement`: Personalize Management API endpoint
-- `personalizeEdge`: Personalize Edge API endpoint
-- `application`: Contentstack web application
-- `preview`: REST Preview API endpoint
-
-#### Examples
-
-```typescript
-// Valid region
-const endpoints = getContentstackEndpoints(Region.EU);
-console.log(endpoints.contentDelivery); // "https://eu-cdn.contentstack.com"
-
-// With omitHttps flag
-const endpoints = getContentstackEndpoints(Region.EU, true);
-console.log(endpoints.contentDelivery); // "eu-cdn.contentstack.com"
-
-// Invalid region (returns empty object)
-const endpoints = getContentstackEndpoints("INVALID" as Region);
-console.log(endpoints); // {}
-```
-
-#### Types
-
-```javascript
-export enum Region {
-  US = "us",
-  EU = "eu",
-  AU = "au",
-  AZURE_NA = "azure-na",
-  AZURE_EU = "azure-eu",
-  GCP_NA = "gcp-na",
-  GCP_EU = "gcp-eu"
-}
-
-export interface ContentstackEndpoints {
-  contentDelivery?: string;
-  contentManagement?: string;
-  imageDelivery?: string;
-  assets?: string;
-  automate?: string;
-  graphql?: string;
-  graphqlPreview?: string;
-  brandKit?: string;
-  brandKitGenAI?: string;
-  personalizeManagement?: string;
-  personalizeEdge?: string;
-  application?: string;
-  preview?: string;
-}
-```
+**Maintained by:** [@timbenniks](https://github.com/timbenniks)  
+**Data Source:** Auto-synced with [Contentstack's official regions](https://artifacts.contentstack.com/regions.json)
 
 ## License
 
 MIT
+
+---
+
+<details>
+<summary><strong>For Maintainers</strong></summary>
+
+### Updating Endpoints
+
+```bash
+npm run generate-endpoints
+```
+
+This fetches the latest regions data from Contentstack and regenerates types and endpoint mappings. A GitHub Action automatically checks for updates weekly.
+
+</details>
