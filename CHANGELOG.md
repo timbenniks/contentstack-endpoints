@@ -14,14 +14,16 @@ This release makes the package significantly easier to use by accepting region s
 ### Added
 
 - **String-based API**: `getContentstackEndpoints()` now accepts region strings directly
+
   ```typescript
   // New way (simpler!)
   const endpoints = getContentstackEndpoints("eu");
-  
+
   // Old way (still works!)
   const region = getRegionForString("eu");
   const endpoints = getContentstackEndpoints(region);
   ```
+
 - **RegionInput type**: New type that accepts both `string` and `Region` enum for maximum flexibility
 - **Deprecated properties in TypeScript types**: All v1.x property aliases now properly typed with `@deprecated` JSDoc tags
   - `graphql` → Use `graphqlDelivery`
@@ -104,6 +106,7 @@ This release introduces automatic generation of endpoint definitions from Conten
 Earlier versions (v1.0.0 - v1.0.16) maintained manual endpoint configurations with basic region support.
 
 Key features in v1.x:
+
 - Manual endpoint definitions for NA, EU, AU, Azure, and GCP regions
 - Basic `getContentstackEndpoints()` function with Region enum
 - `getRegionForString()` helper for string to enum conversion
@@ -123,17 +126,17 @@ See [git history](https://github.com/timbenniks/contentstack-endpoints/commits/m
 
 ```typescript
 // Old (still works)
-endpoints.graphql
-endpoints.imageDelivery
-endpoints.brandKitGenAI
-endpoints.personalizeManagement
+endpoints.graphql;
+endpoints.imageDelivery;
+endpoints.brandKitGenAI;
+endpoints.personalizeManagement;
 
 // New (recommended)
-endpoints.graphqlDelivery
-endpoints.graphqlPreview
-endpoints.images
-endpoints.genAI
-endpoints.personalize
+endpoints.graphqlDelivery;
+endpoints.graphqlPreview;
+endpoints.images;
+endpoints.genAI;
+endpoints.personalize;
 ```
 
 #### Simplify with string-based API (v2.1+)

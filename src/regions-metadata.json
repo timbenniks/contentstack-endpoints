@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-11-06T13:28:05.283Z",
+  "generatedAt": "2026-03-27T14:15:31.227Z",
   "source": "https://artifacts.contentstack.com/regions.json",
   "regions": [
     {
@@ -7,12 +7,7 @@
       "name": "AWS North America",
       "cloudProvider": "AWS",
       "location": "North America",
-      "aliases": [
-        "na",
-        "us",
-        "aws-na",
-        "aws_na"
-      ],
+      "aliases": ["na", "us", "aws-na", "aws_na", "NA", "US", "AWS-NA", "AWS_NA"],
       "isDefault": true
     },
     {
@@ -20,11 +15,7 @@
       "name": "AWS Europe",
       "cloudProvider": "AWS",
       "location": "Europe",
-      "aliases": [
-        "eu",
-        "aws-eu",
-        "aws_eu"
-      ],
+      "aliases": ["eu", "aws-eu", "aws_eu", "EU", "AWS-EU", "AWS_EU"],
       "isDefault": false
     },
     {
@@ -32,11 +23,7 @@
       "name": "AWS Australia",
       "cloudProvider": "AWS",
       "location": "Australia",
-      "aliases": [
-        "au",
-        "aws-au",
-        "aws_au"
-      ],
+      "aliases": ["au", "aws-au", "aws_au", "AU", "AWS-AU", "AWS_AU"],
       "isDefault": false
     },
     {
@@ -44,10 +31,7 @@
       "name": "Azure North America",
       "cloudProvider": "Azure",
       "location": "North America",
-      "aliases": [
-        "azure-na",
-        "azure_na"
-      ],
+      "aliases": ["azure-na", "azure_na", "AZURE-NA", "AZURE_NA"],
       "isDefault": false
     },
     {
@@ -55,10 +39,7 @@
       "name": "Azure Europe",
       "cloudProvider": "Azure",
       "location": "Europe",
-      "aliases": [
-        "azure-eu",
-        "azure_eu"
-      ],
+      "aliases": ["azure-eu", "azure_eu", "AZURE-EU", "AZURE_EU"],
       "isDefault": false
     },
     {
@@ -66,10 +47,7 @@
       "name": "GCP North America",
       "cloudProvider": "GCP",
       "location": "North America",
-      "aliases": [
-        "gcp-na",
-        "gcp_na"
-      ],
+      "aliases": ["gcp-na", "gcp_na", "GCP-NA", "GCP_NA"],
       "isDefault": false
     },
     {
@@ -77,10 +55,7 @@
       "name": "GCP Europe",
       "cloudProvider": "GCP",
       "location": "Europe",
-      "aliases": [
-        "gcp-eu",
-        "gcp_eu"
-      ],
+      "aliases": ["gcp-eu", "gcp_eu", "GCP-EU", "GCP_EU"],
       "isDefault": false
     }
   ]

@@ -5,14 +5,14 @@ export enum Region {
   AZURE_NA = "azure-na",
   AZURE_EU = "azure-eu",
   GCP_NA = "gcp-na",
-  GCP_EU = "gcp-eu"
+  GCP_EU = "gcp-eu",
 }
 
 /**
  * A region identifier - can be a string or Region enum.
  * Supports all official Contentstack region aliases:
  * - "na", "us", "aws-na", "aws_na" (all map to NA region)
- * - "eu", "aws-eu", "aws_eu" (all map to EU region)  
+ * - "eu", "aws-eu", "aws_eu" (all map to EU region)
  * - "au", "aws-au", "aws_au" (all map to AU region)
  * - "azure-na", "azure_na" (Azure North America)
  * - "azure-eu", "azure_eu" (Azure Europe)
@@ -27,6 +27,7 @@ export interface ContentstackEndpoints {
   auth?: string;
   automate?: string;
   brandKit?: string;
+  composableStudio?: string;
   contentDelivery?: string;
   contentManagement?: string;
   developerHub?: string;
@@ -35,8 +36,8 @@ export interface ContentstackEndpoints {
   graphqlPreview?: string;
   images?: string;
   launch?: string;
-  personalize?: string;
   personalizeEdge?: string;
+  personalizeManagement?: string;
   preview?: string;
 
   // Deprecated properties (v1.x compatibility)
@@ -46,6 +47,6 @@ export interface ContentstackEndpoints {
   imageDelivery?: string;
   /** @deprecated Use genAI instead */
   brandKitGenAI?: string;
-  /** @deprecated Use personalize instead */
-  personalizeManagement?: string;
+  /** @deprecated Use personalizeManagement instead */
+  personalize?: string;
 }

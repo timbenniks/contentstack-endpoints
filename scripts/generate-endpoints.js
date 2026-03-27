@@ -8,6 +8,7 @@
  */
 
 import { writeFileSync } from "fs";
+import { execSync } from "child_process";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -21,9 +22,7 @@ async function fetchRegions() {
   const response = await fetch(REGIONS_URL);
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch regions: ${response.status} ${response.statusText}`
-    );
+    throw new Error(`Failed to fetch regions: ${response.status} ${response.statusText}`);
   }
 
   const data = await response.json();
@@ -50,15 +49,15 @@ function generateEndpointsInterface(regions) {
     Object.keys(region.endpoints).forEach((key) => allKeys.add(key));
   });
 
-  const properties = Array.from(allKeys)
-    .sort()
+  const properties = Array.from(/** @type {Set<string>} */ (allKeys))
+    .sort((a, b) => a.localeCompare(b))
     .map((key) => {
       return `  ${key}?: string;`;
     })
     .join("\n");
 
   // Deprecated properties for v1.x backward compatibility
-  const deprecatedProperties = `  
+  const deprecatedProperties = `
   // Deprecated properties (v1.x compatibility)
   /** @deprecated Use graphqlDelivery instead */
   graphql?: string;
@@ -66,8 +65,8 @@ function generateEndpointsInterface(regions) {
   imageDelivery?: string;
   /** @deprecated Use genAI instead */
   brandKitGenAI?: string;
-  /** @deprecated Use personalize instead */
-  personalizeManagement?: string;`;
+  /** @deprecated Use personalizeManagement instead */
+  personalize?: string;`;
 
   return `export interface ContentstackEndpoints {
 ${properties}
@@ -81,7 +80,7 @@ function generateRegionEndpoints(regions) {
     graphqlDelivery: "graphql",
     images: "imageDelivery",
     genAI: "brandKitGenAI",
-    personalize: "personalizeManagement",
+    personalizeManagement: "personalize",
   };
 
   const endpointMappings = regions
@@ -89,19 +88,20 @@ function generateRegionEndpoints(regions) {
       const regionKey = region.id.toUpperCase().replace(/-/g, "_");
 
       // Build main endpoints
+      /** @type {string[]} */
       const endpointLines = [];
       Object.entries(region.endpoints).forEach(([key, value]) => {
-        endpointLines.push(`    ${key}: '${value}'`);
+        endpointLines.push(`    ${key}: '${String(value)}'`);
       });
 
       // Add backward compatibility aliases (with proper comma placement)
       Object.entries(region.endpoints).forEach(([key, value]) => {
         if (propertyAliases[key]) {
           endpointLines.push(
-            `    ${propertyAliases[key]}: '${value}', // @deprecated: Use ${key} instead`.replace(
+            `    ${propertyAliases[key]}: '${String(value)}', // @deprecated: Use ${key} instead`.replace(
               ", //",
-              ",\n    //"
-            )
+              ",\n    //",
+            ),
           );
         }
       });
@@ -109,10 +109,7 @@ function generateRegionEndpoints(regions) {
       // Join with commas, but remove trailing comma from last line
       let allEndpoints = endpointLines.join(",\n");
       // Remove comma before the last closing comment if it ends with "instead"
-      allEndpoints = allEndpoints.replace(
-        /,(\s*\/\/ @deprecated[^\n]*instead)$/,
-        "$1"
-      );
+      allEndpoints = allEndpoints.replace(/,(\s*\/\/ @deprecated[^\n]*instead)$/, "$1");
 
       return `  [Region.${regionKey}]: {\n${allEndpoints}\n  }`;
     })
@@ -137,7 +134,7 @@ function generateAliasMap(regions) {
   });
 
   const entries = Object.entries(aliasMap)
-    .map(([alias, region]) => `  '${alias}': ${region}`)
+    .map(([alias, region]) => `  '${alias}': ${String(region)}`)
     .join(",\n");
 
   return `const regionAliasMap: Record<string, Region> = {
@@ -241,19 +238,17 @@ async function main() {
     writeFileSync(metadataPath, metadataContent);
     console.log("✅ Generated:", metadataPath);
 
-    console.log(
-      "\n🎉 Successfully generated Contentstack endpoint definitions!"
-    );
-    console.log(
-      "\n⚠️  Note: You may need to update tests to match any new endpoints."
-    );
-    console.log(
-      "\n💡 The logic in src/index.ts remains manually maintained for safety."
-    );
+    // Format generated files
+    console.log("🔧 Formatting generated files...");
+    execSync(`vp fmt ${typesPath} ${regionsDataPath} ${metadataPath}`, { stdio: "inherit" });
+
+    console.log("\n🎉 Successfully generated Contentstack endpoint definitions!");
+    console.log("\n⚠️  Note: You may need to update tests to match any new endpoints.");
+    console.log("\n💡 The logic in src/index.ts remains manually maintained for safety.");
   } catch (error) {
     console.error("❌ Error:", error.message);
     process.exit(1);
   }
 }
 
-main();
+void main();

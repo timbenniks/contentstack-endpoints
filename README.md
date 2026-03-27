@@ -33,9 +33,7 @@ import { getContentstackEndpoints } from "@timbenniks/contentstack-endpoints";
 const endpoints = getContentstackEndpoints("eu");
 
 // Perfect for environment variables
-const endpoints = getContentstackEndpoints(
-  process.env.CONTENTSTACK_REGION || "na"
-);
+const endpoints = getContentstackEndpoints(process.env.CONTENTSTACK_REGION || "na");
 ```
 
 **Benefits:**
@@ -49,10 +47,7 @@ const endpoints = getContentstackEndpoints(
 **Use when you need explicit type safety or enum validation:**
 
 ```typescript
-import {
-  getContentstackEndpoints,
-  getRegionForString,
-} from "@timbenniks/contentstack-endpoints";
+import { getContentstackEndpoints, getRegionForString } from "@timbenniks/contentstack-endpoints";
 
 // Convert string to Region enum first
 const region = getRegionForString(process.env.CONTENTSTACK_REGION as string);
@@ -102,9 +97,7 @@ const stack = Contentstack.stack({
 ### With Environment Variables
 
 ```typescript
-const endpoints = getContentstackEndpoints(
-  process.env.CONTENTSTACK_REGION || "na"
-);
+const endpoints = getContentstackEndpoints(process.env.CONTENTSTACK_REGION || "na");
 ```
 
 ### Remove HTTPS Prefix
