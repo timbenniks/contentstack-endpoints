@@ -5,147 +5,72 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - 2024-11-06
+## [3.0.0] - 2026-03-27
 
-### ✨ Enhanced - Simplified String-Based API
+### Breaking Changes
 
-This release makes the package significantly easier to use by accepting region strings directly, eliminating the need for enum conversions in most cases.
+- **`personalize` renamed to `personalizeManagement`**: The upstream API now uses `personalizeManagement` as the primary field. `personalize` is now a deprecated alias pointing to `personalizeManagement` (previously it was the other way around).
+- **`genAI` URL changed**: Updated from `https://ai.contentstack.com` to `https://ai.contentstack.com/brand-kits` across all regions, matching the upstream source.
+- **Dist output extensions changed**: ESM output is now `.mjs`/`.d.mts`, CJS is `.cjs`/`.d.cts`. The `exports` field in `package.json` handles resolution for all modern bundlers. Fallback fields (`main`, `module`, `types`) cover legacy tools.
 
 ### Added
 
-- **String-based API**: `getContentstackEndpoints()` now accepts region strings directly
-
-  ```typescript
-  // New way (simpler!)
-  const endpoints = getContentstackEndpoints("eu");
-
-  // Old way (still works!)
-  const region = getRegionForString("eu");
-  const endpoints = getContentstackEndpoints(region);
-  ```
-
-- **RegionInput type**: New type that accepts both `string` and `Region` enum for maximum flexibility
-- **Deprecated properties in TypeScript types**: All v1.x property aliases now properly typed with `@deprecated` JSDoc tags
-  - `graphql` → Use `graphqlDelivery`
-  - `imageDelivery` → Use `images`
-  - `brandKitGenAI` → Use `genAI`
-  - `personalizeManagement` → Use `personalize`
+- **`composableStudio` endpoint**: New endpoint available across all regions.
+- **Vite+ toolchain**: Migrated from tsdown/vitest/oxlint to the unified Vite+ toolchain (`vp check`, `vp test`, `vp pack`).
+- **Auto-formatting in generator**: `generate-endpoints` script now runs `vp fmt` on output files.
 
 ### Changed
 
-- Updated documentation to showcase string-based usage as the recommended approach
-- Improved README clarity - now focuses on user needs rather than internal architecture
-- Better comparison of both API approaches (string vs enum)
+- Deprecated alias direction reversed: `personalize` is now deprecated in favor of `personalizeManagement`.
+- All endpoint data synced with latest [regions.json](https://artifacts.contentstack.com/regions.json).
+- Removed unused `oxlint.json` and `.cursorrules` config files.
+- Cleaned up README.
 
-### Fixed
+### Migration from v2.x
 
-- Deprecated endpoint properties now appear in TypeScript definitions (previously only in runtime)
-- Auto-generation script now preserves `RegionInput` type when regenerating
+```typescript
+// v2.x
+endpoints.personalize; // primary
+endpoints.personalizeManagement; // deprecated alias
 
-### Developer Experience
+// v3.0
+endpoints.personalizeManagement; // primary
+endpoints.personalize; // deprecated alias
+```
 
-- 🎯 Cleaner API - fewer imports needed
-- 📝 Better TypeScript autocomplete with deprecation warnings
-- 🔄 100% backward compatible - all existing code continues to work
+If you reference `genAI` URLs directly, note the path change:
+
+```
+// v2.x: https://ai.contentstack.com
+// v3.0: https://ai.contentstack.com/brand-kits
+```
+
+## [2.1.0] - 2024-11-06
+
+### Added
+
+- **String-based API**: `getContentstackEndpoints()` now accepts region strings directly.
+- **RegionInput type**: Accepts both `string` and `Region` enum.
+- Deprecated properties now have `@deprecated` JSDoc tags in TypeScript types.
+
+### Changed
+
+- Documentation updated to recommend string-based usage.
 
 ## [2.0.0] - 2024-10-28
 
-### 🎉 Major Release - Auto-Generated from Official Source
-
-This release introduces automatic generation of endpoint definitions from Contentstack's official regions endpoint, ensuring accuracy and up-to-date information.
-
-**✨ Your v1.x code continues to work!** All deprecated properties are available as aliases for full backward compatibility.
-
-### Non-Breaking Changes
-
-- **Region.US aliased to Region.NA**: The US region is now called `Region.NA` to match Contentstack's official naming. `Region.US` remains available as a deprecated alias.
-- **Endpoint property aliases** for backward compatibility - old v1.x names still work:
-  - `graphql` (deprecated) → `graphqlDelivery` (new)
-  - `imageDelivery` (deprecated) → `images` (new)
-  - `brandKitGenAI` (deprecated) → `genAI` (new)
-  - `personalizeManagement` (deprecated) → `personalize` (new)
-
 ### Added
 
-- ✨ **Auto-sync with official source**: All endpoints are now generated from [https://artifacts.contentstack.com/regions.json](https://artifacts.contentstack.com/regions.json)
-- 🏷️ **Official alias support**: `getRegionForString()` now supports all official Contentstack region aliases:
-  - `"us"`, `"aws-na"`, `"aws_na"` → `Region.NA`
-  - `"aws-eu"`, `"aws_eu"` → `Region.EU`
-  - `"aws-au"`, `"aws_au"` → `Region.AU`
-- 🆕 **New endpoint properties**:
-  - `auth` - Authentication API endpoint
-  - `launch` - Launch API endpoint
-  - `developerHub` - Developer Hub API endpoint
-  - `genAI` - GenAI and Knowledge Vault endpoint
-- ✅ **GCP regions now include automate endpoints** (were previously marked as unavailable)
-- 📦 **Regions metadata file**: New `regions-metadata.json` file with cloud provider and location information
-- 🤖 **GitHub Action**: Automated weekly checks for endpoint updates
-- 🛠️ **Generation script**: `npm run generate-endpoints` to manually sync with official source
+- Auto-generated endpoints from [Contentstack's official regions](https://artifacts.contentstack.com/regions.json).
+- Official alias support in `getRegionForString()` (`"us"`, `"aws-na"`, `"aws_eu"`, etc.).
+- New endpoints: `auth`, `launch`, `developerHub`, `genAI`.
+- Regions metadata file and GitHub Action for automated updates.
 
 ### Changed
 
-- All endpoint mappings now match Contentstack's official configuration
-- Improved documentation with migration guide and breaking changes clearly documented
-- Enhanced test coverage for all regions and endpoints
-
-### Fixed
-
-- GCP regions now correctly include automate endpoints
-- All endpoint URLs verified against official Contentstack source
-
-### Developer Experience
-
-- Added automated generation script for maintainers
-- Comprehensive test suite updated to match new endpoints
-- GitHub Action for automatic update detection and PR creation
+- `Region.US` renamed to `Region.NA` (matching Contentstack's naming).
+- Endpoint property names updated with v1.x aliases for backward compatibility.
 
 ## [1.0.16] - 2024-09-15
 
-### Previous Versions
-
-Earlier versions (v1.0.0 - v1.0.16) maintained manual endpoint configurations with basic region support.
-
-Key features in v1.x:
-
-- Manual endpoint definitions for NA, EU, AU, Azure, and GCP regions
-- Basic `getContentstackEndpoints()` function with Region enum
-- `getRegionForString()` helper for string to enum conversion
-- Support for omitting HTTPS prefix
-
-See [git history](https://github.com/timbenniks/contentstack-endpoints/commits/main) for detailed v1.x changes.
-
----
-
-## Migration Guides
-
-### Migrating from v1.x to v2.x
-
-**No breaking changes!** All v1.x code continues to work. However, consider these improvements:
-
-#### Update property names (recommended)
-
-```typescript
-// Old (still works)
-endpoints.graphql;
-endpoints.imageDelivery;
-endpoints.brandKitGenAI;
-endpoints.personalizeManagement;
-
-// New (recommended)
-endpoints.graphqlDelivery;
-endpoints.graphqlPreview;
-endpoints.images;
-endpoints.genAI;
-endpoints.personalize;
-```
-
-#### Simplify with string-based API (v2.1+)
-
-```typescript
-// v1.x and v2.0
-const region = getRegionForString(process.env.REGION);
-const endpoints = getContentstackEndpoints(region);
-
-// v2.1+ (simpler)
-const endpoints = getContentstackEndpoints(process.env.REGION);
-```
+Earlier versions (v1.0.0–v1.0.16) maintained manual endpoint configurations. See [git history](https://github.com/timbenniks/contentstack-endpoints/commits/main) for details.
