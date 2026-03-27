@@ -135,14 +135,15 @@ Each region returns an object with these endpoint URLs:
 | `developerHub`            | Developer Hub API                                     |
 | `genAI`                   | GenAI & Knowledge Vault API                           |
 | `brandKit`                | Brand Kit API                                         |
-| `personalize`             | Personalize Management API                            |
+| `personalizeManagement`   | Personalize Management API                            |
 | `personalizeEdge`         | Personalize Edge API                                  |
+| `composableStudio`        | Composable Studio API                                 |
 | `application`             | Contentstack Web App URL                              |
 | **Deprecated Properties** | **v1.x compatibility - still work but use new names** |
 | `graphql`                 | ⚠️ Use `graphqlDelivery` instead                      |
 | `imageDelivery`           | ⚠️ Use `images` instead                               |
 | `brandKitGenAI`           | ⚠️ Use `genAI` instead                                |
-| `personalizeManagement`   | ⚠️ Use `personalize` instead                          |
+| `personalize`             | ⚠️ Use `personalizeManagement` instead                |
 
 ## API
 

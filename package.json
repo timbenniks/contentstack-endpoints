@@ -1,6 +1,6 @@
 {
   "name": "@timbenniks/contentstack-endpoints",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A utility package to get Contentstack API endpoints based on cloud and region",
   "keywords": [
     "api",
